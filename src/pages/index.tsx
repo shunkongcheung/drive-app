@@ -1,11 +1,22 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
+import type { NextPage } from "next";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Heading = styled.h1`
+  color: ${({ theme }) => theme.colors.primary[500]};
+`;
 
 const Home: NextPage = () => {
   return (
-    <div>hello world</div>
-  )
-}
+    <Container>
+      <Heading>hello world</Heading>
+    </Container>
+  );
+};
 
-export default Home
+export default Home;
