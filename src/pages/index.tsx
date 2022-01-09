@@ -1,5 +1,9 @@
-import type { NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
+import nextCookies from "next-cookies";
 import styled from "styled-components";
+
+import { AUTH_STORAGE_KEY } from "../constants";
+import { getIsAuth } from "../utils";
 
 const Container = styled.div`
   display: flex;
@@ -17,6 +21,23 @@ const Home: NextPage = () => {
       <Heading>hello world</Heading>
     </Container>
   );
+};
+
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
+  const cookies = nextCookies(ctx);
+  const password = cookies[AUTH_STORAGE_KEY] || "";
+
+  const isAuth = getIsAuth(password);
+  if (!isAuth) {
+    return {
+      redirect: {
+        destination: "/auth",
+        statusCode: 302,
+      },
+    };
+  }
+
+  return { props: {} };
 };
 
 export default Home;
