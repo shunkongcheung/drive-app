@@ -31,7 +31,7 @@ const useAuth = () => {
         return;
       } else {
         // if valid, store it to local storage
-        sessionStorage.setItem(AUTH_STORAGE_KEY, password);
+        document.cookie = `${AUTH_STORAGE_KEY}=${password};`;
         // go to home page after login
         router.push("/");
       }
