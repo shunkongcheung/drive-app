@@ -5,33 +5,34 @@ import * as yup from "yup";
 import { AUTH_STORAGE_KEY } from "../../constants";
 
 interface Result {
-  isAuth: boolean;
+  token: string;
+  success: boolean;
 }
 
 const useAuth = () => {
   const router = useRouter();
 
   const formik = useFormik({
-    initialValues: { password: "" },
+    initialValues: { username: "", password: "" },
     validationSchema: yup.object({
       password: yup.string().required(),
     }),
-    onSubmit: async ({ password }, formik) => {
+    onSubmit: async ({ username, password }, formik) => {
       // check if password is valid
-      const res = await fetch("/api/hello", {
+      const res = await fetch("/api/auth/token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ username, password }),
       });
       const result = (await res.json()) as Result;
 
-      if (!result.isAuth) {
+      if (!result.success) {
         // if invalid set error
         formik.setErrors({ password: "Invalid password." });
         return;
       } else {
         // if valid, store it to local storage
-        document.cookie = `${AUTH_STORAGE_KEY}=${password};`;
+        document.cookie = `${AUTH_STORAGE_KEY}=${result.token};`;
         // go to home page after login
         router.push("/");
       }
