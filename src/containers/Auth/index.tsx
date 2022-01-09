@@ -1,7 +1,7 @@
 import React from "next";
 import styled from "styled-components";
 
-import { Heading } from "../../components";
+import { Button, Heading } from "../../components";
 
 import useAuth from "./useAuth";
 
@@ -53,18 +53,6 @@ const PwInput = styled.input`
   border: 1px sold ${({ theme }) => theme.colors.primary[500]};
 `;
 
-const SubmitBtn = styled.button`
-  background: ${({ theme }) => theme.colors.primary[400]};
-  color: white;
-  border: 1px solid ${({ theme }) => theme.colors.primary[500]};
-  border-radius: 5px;
-  padding: 5px;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.primary[500]};
-  }
-`;
-
 const Title = styled.div`
   color: ${({ theme }) => theme.colors.primary[500]};
 `;
@@ -88,9 +76,7 @@ const Auth: React.FC = () => {
             />
             <Message>{authState.errors.password}</Message>
           </div>
-          <SubmitBtn type="button" onClick={authState.handleSubmit}>
-            登入
-          </SubmitBtn>
+          <Button onClick={authState.handleSubmit}>登入</Button>
         </Card>
       </Content>
     </Container>
