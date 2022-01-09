@@ -3,7 +3,7 @@ import nextCookies from "next-cookies";
 import styled from "styled-components";
 
 import { AUTH_STORAGE_KEY } from "../constants";
-import { getIsAuth } from "../utils";
+import { getUserFromToken } from "../utils";
 
 const Container = styled.div`
   display: flex;
@@ -25,16 +25,12 @@ const Home: NextPage = () => {
 
 export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   const cookies = nextCookies(ctx);
-  const password = cookies[AUTH_STORAGE_KEY] || "";
+  const token = cookies[AUTH_STORAGE_KEY] || "";
 
-  const isAuth = getIsAuth(password);
-  if (!isAuth) {
-    return {
-      redirect: {
-        destination: "/auth",
-        statusCode: 302,
-      },
-    };
+  try {
+    getUserFromToken(token);
+  } catch (ex) {
+    return { redirect: { destination: "/auth", statusCode: 302 } };
   }
 
   return { props: {} };

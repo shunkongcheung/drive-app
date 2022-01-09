@@ -66,6 +66,15 @@ const Auth: React.FC = () => {
       <Content>
         <Card>
           <div>
+            <Title>用戶名稱</Title>
+            <PwInput
+              name="username"
+              onBlur={authState.handleBlur}
+              onChange={authState.handleChange}
+              value={authState.values.username}
+            />
+          </div>
+          <div>
             <Title>密碼</Title>
             <PwInput
               name="password"
